@@ -47,7 +47,9 @@ let posts = [
         content: "AI tools are changing the way developers write, test, and debug code. Exciting times ahead!"
     }
 ];
-
+app.get("/", (req, res) => {
+  res.redirect("/posts");
+});
 app.get("/posts", (req, res) => {
     res.render("index.ejs",{ posts });
 });
