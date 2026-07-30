@@ -86,9 +86,11 @@ app.delete("/posts/:id", (req, res) => {
     res.redirect("/posts");
 });
 
-app.listen(port, () => {
-    console.log("listening to port : 8080");
-});
+if (process.env.NODE_ENV !== "production") {
+    app.listen(8080, () => {
+        console.log("Listening on port 8080");
+    });
+}
 
 // Adding this line for Vercel deployment
 module.exports = app;
