@@ -2,7 +2,11 @@ const express = require("express");
 const app = express();
 const port = 8080;
 const path = require("path");
-const { v4: uuidv4 } = require('uuid');
+// Remove this:
+// const { v4: uuidv4 } = require('uuid');
+
+// Use this instead inside an async function:
+const { v4: uuidv4 } = (await import('uuid')).default;
 const methodOverride = require("method-override");
 app.use(methodOverride('_method'))
 
