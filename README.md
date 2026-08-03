@@ -1,30 +1,43 @@
-# Postify
+# 🚀 Postify
 
-A minimal full-stack CRUD web application for creating, viewing, editing, and deleting posts — built with **Node.js**, **Express**, **EJS**, and **Upstash Redis** for persistent data storage.
+**Postify** is a full-stack CRUD web application that allows users to create, view, edit, and delete posts. Built with **Node.js**, **Express**, **EJS**, and **Upstash Redis**, it demonstrates RESTful architecture, server-side rendering, and cloud-based persistent storage.
 
-## Features
+> 💡 Live Demo: **https://postify-sandy.vercel.app/posts**
+>
+> 📂 Source Code: **https://github.com/atherr977/Postify**
+
+---
+
+## ✨ Features
 
 - 📝 Create new posts
-- 📋 View all posts on the home feed
+- 📋 Browse all posts
 - 🔍 View individual post details
 - ✏️ Edit existing posts
 - 🗑️ Delete posts
-- 💾 Persistent storage with Upstash Redis
-- 🔄 RESTful routing using `method-override`
+- 💾 Persistent cloud storage with Upstash Redis
+- 🔄 RESTful CRUD operations using `method-override`
 - 🎨 Server-side rendering with EJS
+- 🔐 Protected **Demo Reset** feature to restore sample data
+- ⚡ Deployed on Vercel
 
-## Tech Stack
+---
 
-| Layer | Technology |
-|-------|------------|
+## 🛠️ Tech Stack
+
+| Category | Technology |
+|----------|------------|
 | Runtime | Node.js |
-| Server | Express |
-| Templating | EJS |
+| Backend | Express.js |
+| View Engine | EJS |
 | Database | Upstash Redis |
-| Routing | `method-override` |
-| IDs | Node.js `crypto.randomUUID()` |
+| Routing | method-override |
+| IDs | crypto.randomUUID() |
+| Deployment | Vercel |
 
-## Project Structure
+---
+
+## 📁 Project Structure
 
 ```text
 postify/
@@ -37,48 +50,69 @@ postify/
 │   └── edit.ejs
 ├── index.js
 ├── package.json
+├── vercel.json
 └── README.md
 ```
 
-## Routes
+---
 
-| Method | Route | Description |
-|--------|-------|-------------|
-| GET | `/` | Redirect to all posts |
+## 📌 REST API Routes
+
+| Method | Endpoint | Description |
+|---------|----------|-------------|
+| GET | `/` | Redirect to posts |
 | GET | `/posts` | Display all posts |
-| GET | `/posts/new` | Show create post form |
-| POST | `/posts` | Create a new post |
-| GET | `/posts/:id` | View a single post |
-| GET | `/posts/:id/edit` | Show edit form |
+| GET | `/posts/new` | New post form |
+| POST | `/posts` | Create a post |
+| GET | `/posts/:id` | View a post |
+| GET | `/posts/:id/edit` | Edit form |
 | PATCH | `/posts/:id` | Update a post |
 | DELETE | `/posts/:id` | Delete a post |
+| POST | `/reset-demo` | Restore demo data *(protected by reset key)* |
 
-## Getting Started
+---
+
+## 🚀 Getting Started
 
 ### Prerequisites
 
 - Node.js (v16 or later)
 - npm
-- Upstash Redis database
+- Upstash Redis account
 
-### Installation
+---
+
+### Clone the Repository
 
 ```bash
-git clone https://github.com/<your-username>/postify.git
-cd postify
+git clone https://github.com/atherr977/Postify.git
+cd Postify
+```
+
+---
+
+### Install Dependencies
+
+```bash
 npm install
 ```
 
-### Environment Variables
+---
 
-Create a `.env.local` file (or pull them using the Vercel CLI) and add your Upstash Redis credentials:
+### Configure Environment Variables
+
+Create a `.env.local` file and add:
 
 ```env
-UPSTASH_REDIS_REST_URL=your_upstash_redis_rest_url
-UPSTASH_REDIS_REST_TOKEN=your_upstash_redis_rest_token
+UPSTASH_REDIS_REST_URL=your_upstash_url
+UPSTASH_REDIS_REST_TOKEN=your_upstash_token
+
+RESET_KEY=your_secret_reset_key
 ```
 
-If you're deploying on **Vercel**, simply connect your Upstash Redis database to the project. Vercel will automatically provide these environment variables.
+If deploying on **Vercel**, simply connect your Upstash Redis database and add the `RESET_KEY` environment variable in **Project Settings → Environment Variables**.
+
+---
 
 ### Run Locally
 
@@ -92,27 +126,62 @@ Visit:
 http://localhost:8080
 ```
 
-## Deployment
+---
 
-This project is deployed on **Vercel** and uses **Upstash Redis** to persist data across serverless function invocations.
+## 🌐 Deployment
 
-## Notes
+Postify is deployed on **Vercel** using **serverless functions** with **Upstash Redis** as the cloud database.
 
-- Posts are stored in Upstash Redis.
-- The application automatically seeds a few sample posts if the database is empty.
-- No authentication is implemented, so anyone can create, edit, or delete posts.
+---
 
-## Future Improvements
+## 🔄 Demo Reset
 
-- [ ] Input validation
-- [ ] 404 page for invalid post IDs
+Since this is a public demo, anyone can create, edit, or delete posts.
+
+To keep the demo usable, Postify includes a protected **Reset Demo Data** feature.
+
+- Requires a secret reset key
+- Restores the original sample posts
+- Intended for demo environments only
+
+---
+
+## 💡 Key Learnings
+
+This project helped me gain hands-on experience with:
+
+- Express.js routing
+- RESTful CRUD architecture
+- Server-side rendering using EJS
+- Cloud database integration with Upstash Redis
+- Environment variables
+- Serverless deployment on Vercel
+- Git & GitHub workflow
+
+---
+
+## 🔮 Future Improvements
+
 - [ ] User authentication
-- [ ] User-specific posts
-- [ ] Search and filtering
-- [ ] Rich text editor
-- [ ] Pagination
+- [ ] User profiles
+- [ ] Like & comment system
 - [ ] Image uploads
+- [ ] Search functionality
+- [ ] Pagination
+- [ ] Rich text editor
+- [ ] Responsive mobile navigation
+- [ ] Dark mode
 
-## License
+---
 
-MIT
+## 👨‍💻 Author
+
+**Athar Ashraf**
+
+GitHub: https://github.com/atherr977
+
+---
+
+## 📄 License
+
+This project is licensed under the **MIT License**.
