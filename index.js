@@ -13,6 +13,7 @@ const methodOverride = require("method-override");
 app.use(methodOverride('_method'))
 
 app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
@@ -122,6 +123,23 @@ app.delete("/posts/:id", async (req, res) => {
     posts = posts.filter((p) => id !== p.id);
     await redis.set("posts", posts);
     res.redirect("/posts");
+});
+// Reset demo data
+app.post("/reset-demo", async (req, res) => {
+    const { key } = req.body;
+
+    if (key !== process.env.RESET_KEY) {
+        return res.status(403).json({
+            success: false,
+            message: "Invalid key"
+        });
+    }
+
+    await redis.set("posts", initialPosts);
+
+    res.json({
+        success: true
+    });
 });
 
 if (process.env.NODE_ENV !== "production") {
