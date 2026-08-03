@@ -22,36 +22,31 @@ app.use(express.static(path.join(__dirname, "public")));
 
 // fallback posts if database is completely empty
 const initialPosts = [
-    {
-        id: uuidv4(),
-        username: "naturelover",
-        content: "Went on an early morning hike today. The fresh air and beautiful views made my day!"
-    },
-    {
-        id: uuidv4(),
-        username: "bookworm",
-        content: "Just finished reading 'Atomic Habits'. Highly recommend it to anyone looking to build better habits."
-    },
-    {
-        id: uuidv4(),
-        username: "travel_diaries",
-        content: "Nothing beats watching the sunrise from the mountains. Nature really is the best therapy."
-    },
-    {
-        id: uuidv4(),
-        username: "fitness_journey",
-        content: "Completed my first 5 km run this morning. Small progress every day leads to big results."
-    },
-    {
-        id: uuidv4(),
-        username: "foodie_corner",
-        content: "Tried making homemade pizza today, and it turned out surprisingly good! 🍕"
-    },
-    {
-        id: uuidv4(),
-        username: "technews",
-        content: "AI tools are changing the way developers write, test, and debug code. Exciting times ahead!"
-    }
+ {
+    id: uuidv4(),
+    username: "sarah.codes",
+    content: "Spent almost three hours debugging a feature that refused to work, only to realize I had misspelled a variable name. It's frustrating in the moment, but every bug teaches you something new. Being a developer definitely requires patience more than anything else."
+  },
+  {
+    id: uuidv4(),
+    username: "aditya_travels",
+    content: "Visited Jaipur this weekend and completely fell in love with the city's architecture. Walking through the narrow streets, trying local food, and watching the sunset from Nahargarh Fort made the trip unforgettable. Already planning my next visit."
+  },
+  {
+    id: uuidv4(),
+    username: "bookworm_amy",
+    content: "Finally finished reading 'Atomic Habits' after putting it off for months. The biggest takeaway for me was that small improvements made consistently can completely change your life over time. Definitely one of those books I'll revisit every year."
+  },
+  {
+    id: uuidv4(),
+    username: "fit.life",
+    content: "Completed my first 10 km run today without stopping once. A few months ago I could barely run for five minutes, so this feels like a huge milestone. Progress isn't always fast, but staying consistent really does pay off."
+  },
+  {
+    id: uuidv4(),
+    username: "foodie_journal",
+    content: "Tried making butter chicken at home for the first time using a recipe I found online. It wasn't restaurant quality, but the flavors turned out much better than I expected. Cooking has become one of my favorite ways to relax after a busy day."
+  }
 ];
 
 // Helper to grab posts from Redis (seeds initial data if missing)
