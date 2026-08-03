@@ -3,6 +3,10 @@ const app = express();
 const port = 8080;
 const path = require("path");
 
+// Connect to Upstash Redis
+const { Redis } = require('@upstash/redis');
+const redis = Redis.fromEnv();
+
 // const { v4: uuidv4 } = require('uuid');
 const { randomUUID: uuidv4 } = require('crypto');
 const methodOverride = require("method-override");
@@ -15,7 +19,8 @@ app.set("views", path.join(__dirname, "views"));
 
 app.use(express.static(path.join(__dirname, "public")));
 
-let posts = [
+// fallback posts if database is completely empty
+const initialPosts = [
     {
         id: uuidv4(),
         username: "naturelover",
@@ -47,46 +52,75 @@ let posts = [
         content: "AI tools are changing the way developers write, test, and debug code. Exciting times ahead!"
     }
 ];
+
+// Helper to grab posts from Redis (seeds initial data if missing)
+async function getPosts() {
+    let posts = await redis.get("posts");
+    if (!posts) {
+        posts = initialPosts;
+        await redis.set("posts", posts);
+    }
+    return posts;
+}
+
 app.get("/", (req, res) => {
   res.redirect("/posts");
 });
-app.get("/posts", (req, res) => {
+
+// fetch all posts from Redis
+app.get("/posts", async (req, res) => {
+    const posts = await getPosts();
     res.render("index.ejs",{ posts });
 });
+
 app.get("/posts/new", (req, res) => {
     res.render("new.ejs");
 });
 
-app.post("/posts", (req, res) => {
+// save a new post to Redis
+app.post("/posts", async (req, res) => {
     let { username, content } = req.body;
     let id = uuidv4();
+    let posts = await getPosts();
     posts.push({ id, username, content });
+    await redis.set("posts", posts);
     res.redirect("/posts");
 });
 
-app.get("/posts/:id", (req, res) => {
+// grab a single post by ID
+app.get("/posts/:id", async (req, res) => {
     let { id } = req.params;
+    let posts = await getPosts();
     let post = posts.find((p) => id === p.id);
     res.render("show.ejs", { post });
 });
-app.patch("/posts/:id", (req, res) => {
+
+// Update post content in Redis
+app.patch("/posts/:id", async (req, res) => {
     let { id } = req.params;
     let newContent = req.body.content;
+    let posts = await getPosts();
     let post = posts.find((p) => id === p.id);
     post.content = newContent;
+    await redis.set("posts", posts);
     console.log(post);
     res.redirect("/posts");
 });
 
-app.get("/posts/:id/edit", (req, res) => {
+// Load edit form for a post
+app.get("/posts/:id/edit", async (req, res) => {
     let { id } = req.params;
+    let posts = await getPosts();
     let post = posts.find((p) => id === p.id);
     res.render("edit.ejs", { post });
 });
 
-app.delete("/posts/:id", (req, res) => {
+// remove post and save changes to Redis
+app.delete("/posts/:id", async (req, res) => {
     let { id } = req.params;
+    let posts = await getPosts();
     posts = posts.filter((p) => id !== p.id);
+    await redis.set("posts", posts);
     res.redirect("/posts");
 });
 
@@ -96,5 +130,4 @@ if (process.env.NODE_ENV !== "production") {
     });
 }
 
-// Adding this line for Vercel deployment
 module.exports = app;
