@@ -23,8 +23,31 @@
     <br />
     <br />
    <a href="/posts/new">Create New Post</a>
+<button onclick="resetDemo()">Reset Demo Data</button>
     <footer class="footer">
     Crafted by <strong>Athar Ashraf</strong>
 </footer>
+<script>
+async function resetDemo() {
+    const key = prompt("Enter reset key:");
+
+    if (!key) return;
+
+    const response = await fetch("/reset-demo", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ key })
+    });
+
+    if (response.ok) {
+        alert("Demo data restored!");
+        location.reload();
+    } else {
+        alert("Invalid reset key!");
+    }
+}
+</script>
 </body>
 </html>
